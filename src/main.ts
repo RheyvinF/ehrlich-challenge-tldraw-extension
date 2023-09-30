@@ -30,3 +30,17 @@ ext.runtime.onExtensionClick.addListener(async () => {
 
   await ext.webviews.loadURL(extWebview.id, 'https://www.tldraw.com/');
 });
+
+ext.tabs.onClickedClose.addListener(async (event: any) => {
+  console.log(event);
+
+  if (extTab && extTab.id) {
+    await ext.tabs.remove(extTab.id);
+    extTab = null;
+  }
+
+  if (extWindow && extWindow.id) {
+    await ext.windows.remove(extWindow.id);
+    extWindow = null;
+  }
+});
