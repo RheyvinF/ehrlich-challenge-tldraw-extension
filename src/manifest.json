@@ -1,0 +1,37 @@
+{
+	"manifest_version": "ext-v1",
+	"name": "Ehrlich Challenge - TLDraw Extension",
+	"short_name": "TLDraw",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Rheyvin Fernandez",
+	"homepage_url": "",
+	"icons": {
+		"128": "icons/icon-128-dark.png",
+		"background": "icons/icon-background.png",
+		"banner": "icons/icon-banner.png"
+	},
+	"scripts": [
+		"main.js"
+	],
+	"modules": {
+		"console": {
+			"module_version": "1.0.1"
+		},
+		"runtime": {
+			"module_version": "1.2.1"
+		},
+		"tabs": {
+			"module_version": "1.1.0"
+		},
+		"windows": {
+			"module_version": "1.1.0"
+		},
+		"webviews": {
+			"module_version": "1.0.2"
+		},
+		"websessions": {
+			"module_version": "1.0.1"
+		}
+	}
+}

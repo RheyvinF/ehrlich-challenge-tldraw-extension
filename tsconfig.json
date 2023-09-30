@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "module": "commonjs",
+    "lib": [
+      "ES6"
+    ],
+    "types": [
+      "@extpkg/types-console",
+      "@extpkg/types-runtime",
+      "@extpkg/types-tabs",
+      "@extpkg/types-webviews",
+      "@extpkg/types-windows",
+      "@extpkg/types-websessions"
+    ]
+  },
+  "include": [
+    "./src/main.ts"
+  ]
+}
