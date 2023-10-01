@@ -1,81 +1,38 @@
-class App {
-  tab: ext.tabs.Tab;
-  window: ext.windows.Window;
-  webview: ext.webviews.Webview;
-  websession: ext.websessions.Websession;
-  isClosed: boolean = true;
-
-  constructor(
-    tab: ext.tabs.Tab,
-    window: ext.windows.Window,
-    webview: ext.webviews.Webview,
-    websession: ext.websessions.Websession
-  ) {
-    this.tab = tab;
-    this.window = window;
-    this.webview = webview;
-    this.websession = websession;
-  }
-}
+import App from './app/app';
 
 const appList: App[] = [];
 
 ext.runtime.onExtensionClick.addListener(async () => {
   try {
-    const index = appList.length;
-
-    const extTab = await ext.tabs.create({
-      text: `TLDraw #${index + 1}`
-    });
-  
-    const extWebsession = await ext.websessions.create({ 
-      partition: `session_${index}`,
-      persistent: true,
-      global: false,
-      cache: true,
-    });
-  
-    const  extWindow = await ext.windows.create({
-      title: `TLDraw #${index + 1}`
-    });
-  
-    const windowSize: ext.windows.Size = await ext.windows.getContentSize(extWindow.id);
-  
-    const extWebview = await ext.webviews.create({
-      window: extWindow,
-      websession: extWebsession,
-      bounds: {
-        x: 0,
-        y: 0,
-        width: windowSize.width,
-        height: windowSize.height
-      },
-      autoResize: {
-        width: true,
-        height: true
-      }
-    });
-
-    const app = new App(extTab, extWindow, extWebview, extWebsession);
-
-    appList.push(app);
-  
-    await ext.webviews.loadURL(app.webview.id, 'https://www.tldraw.com/');
+    reinitializeClosedAppOrCreateNew();
   } catch(err) {
     console.log(err);
   }
 });
 
+const reinitializeClosedAppOrCreateNew = async () => {
+  const closedApp = appList.find(app => app.isClose);
+    
+  if (closedApp) {
+    await closedApp.initialize();
+  } else {
+    const appId = (appList.length + 1).toString();
+
+    const app = new App(appId);
+    await app.initialize();
+
+    appList.push(app);
+  }
+};
+
 ext.tabs.onClickedClose.addListener(async (event: ext.tabs.TabEvent) => {
   try {
-    const {id: windowId} = event;
-
-    const app = appList.find(app => app.window.id === windowId);
-    const appIndex = appList.findIndex(app => app.window.id === windowId);
+    const {id: tabId} = event;
+    const index = appList.findIndex(app => app.getTabId() === tabId);
+    const app = appList[index];
 
     if (app) {
-      await ext.windows.remove(app.window.id);
-      appList.splice(appIndex, 1);
+      app.close();
     }
   } catch (err) {
     console.log(err);
@@ -85,13 +42,11 @@ ext.tabs.onClickedClose.addListener(async (event: ext.tabs.TabEvent) => {
 ext.windows.onClosed.addListener(async (event: ext.windows.WindowEvent) => {
   try {
     const {id: windowId} = event;
-
-    const app = appList.find(app => app.window.id === windowId);
-    const appIndex = appList.findIndex(app => app.window.id === windowId);
+    const index = appList.findIndex(app => app.getWindowId() === windowId);
+    const app = appList[index];
 
     if (app) {
-      await ext.tabs.remove(app.tab.id);
-      appList.splice(appIndex, 1);
+      app.close();
     }
   } catch (err) {
     console.log(err);
