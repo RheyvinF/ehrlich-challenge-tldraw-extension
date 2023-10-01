@@ -7,9 +7,12 @@
 	"author": "Rheyvin Fernandez",
 	"homepage_url": "",
 	"icons": {
-		"128": "icons/icon-128-dark.png",
+		"128": "icons/icon-1024.png",
 		"background": "icons/icon-background.png",
-		"banner": "icons/icon-banner.png"
+		"banner": "icons/icon-banner.png",
+		"128-dark": "icons/icon-128-dark.png",
+		"background-dark": "icons/icon-background-dark.png",
+		"banner-dark": "icons/icon-banner-dark.png"
 	},
 	"scripts": [
 		"main.js"
