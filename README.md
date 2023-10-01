@@ -1,6 +1,6 @@
 # Ehrlich Challenge TLDraw Extension
 
-This is a one-week challenge project conducted by Ehrlich. The goal of this app is to create an extension for TLDraw[tldraw.com](https://tldraw.com).
+This is a one-week challenge project conducted by Ehrlich. The goal of this app is to create an extension for [TLDraw](https://tldraw.com).
 
 ### Requirements:
 - Node JS
