@@ -4,7 +4,7 @@ const appList: App[] = [];
 
 ext.runtime.onExtensionClick.addListener(async () => {
   try {
-    reinitializeClosedAppOrCreateNew();
+    await reinitializeClosedAppOrCreateNew();
   } catch(err) {
     console.log(err);
   }
