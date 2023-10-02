@@ -28,8 +28,7 @@ const reinitializeClosedAppOrCreateNew = async () => {
 ext.tabs.onClickedClose.addListener(async (event: ext.tabs.TabEvent) => {
   try {
     const {id: tabId} = event;
-    const index = appList.findIndex(app => app.getTabId() === tabId);
-    const app = appList[index];
+    const app = appList.find(app => app.getTabId() === tabId);
 
     if (app) {
       app.close();
@@ -42,8 +41,7 @@ ext.tabs.onClickedClose.addListener(async (event: ext.tabs.TabEvent) => {
 ext.windows.onClosed.addListener(async (event: ext.windows.WindowEvent) => {
   try {
     const {id: windowId} = event;
-    const index = appList.findIndex(app => app.getWindowId() === windowId);
-    const app = appList[index];
+    const app = appList.find(app => app.getWindowId() === windowId);
 
     if (app) {
       app.close();
