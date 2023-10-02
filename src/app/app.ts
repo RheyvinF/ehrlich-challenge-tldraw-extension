@@ -10,6 +10,16 @@ class App {
     this.id = id;
   }
 
+  public async initialize() {
+    this.tab = await this.createTab();
+    this.websession = await this.createWebsession();
+    this.window = await this.createWindow();
+    this.webview = await this.createWebview();
+    this.isClose = false;
+
+    await ext.webviews.loadURL(this.webview.id, 'https://www.tldraw.com/');
+  }
+
   private async createTab() {
     return await ext.tabs.create({
       text: `TLDraw #${this.id}`
@@ -48,16 +58,6 @@ class App {
         height: true
       }
     });
-  }
-
-  public async initialize() {
-    this.tab = await this.createTab();
-    this.websession = await this.createWebsession();
-    this.window = await this.createWindow();
-    this.webview = await this.createWebview();
-    this.isClose = false;
-
-    await ext.webviews.loadURL(this.webview.id, 'https://www.tldraw.com/');
   }
 
   public getWindowId() {
